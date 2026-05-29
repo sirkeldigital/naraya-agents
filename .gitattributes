@@ -1,0 +1,11 @@
+# Default: normalize text files to LF on commit, OS-native on checkout
+* text=auto eol=lf
+
+# Force LF for shell scripts (must be LF to run on Unix)
+*.sh text eol=lf
+
+# Markdown: LF for consistency across platforms
+*.md text eol=lf
+
+# PowerShell can handle either, prefer CRLF on Windows
+*.ps1 text eol=crlf
