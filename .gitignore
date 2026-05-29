@@ -1,0 +1,16 @@
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backups from installer
+*.bak
+
+# Local test artifacts
+test-install/
