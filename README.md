@@ -1,12 +1,14 @@
 # NARAYA Agents
 
-Production-grade autonomous engineering agents for **Claude Code**, **OpenCode**, and **Factory Droid**.
+Production-grade autonomous engineering agents **+ 65 on-demand skills** for **Claude Code**, **OpenCode**, and **Factory Droid**.
 
 Six specialist agents with one philosophy: **evidence before claims, smallest safe change, verify before reporting done**.
 
 ---
 
 ## What's included
+
+### 6 Agents
 
 | Agent | Role |
 |---|---|
@@ -18,6 +20,17 @@ Six specialist agents with one philosophy: **evidence before claims, smallest sa
 | **android** | Native Android. Kotlin/Java, Gradle, Jetpack Compose, AndroidManifest, adb/logcat, APK/AAB release. |
 
 All agents are **bilingual** (Bahasa Indonesia + English — they reply in the user's language) and **platform-portable** (same prompts, three platform variants).
+
+### 65 Skills (on-demand)
+
+Modular instructions loaded when relevant. Includes:
+
+- **Languages**: typescript, python, rust, go, java-kotlin, csharp, php, ruby, cpp, scala, elixir, shell-bash
+- **Frameworks**: react, vue, svelte, angular, nextjs, astro-remix, laravel, django-fastapi, express-nestjs, spring-boot, rails, tauri
+- **Mobile**: android-kotlin, android-compose, android-gradle, android-release, android-security, android-testing, swift-ios, react-native, flutter-dart
+- **Domains**: security, architecture, devops, frontend, sql-database, observability, distributed-systems, realtime-systems, blockchain-web3, game-development, ai-llm-engineering, design-systems
+- **Engineering**: software-engineering, testing-strategies, api-design-patterns, advanced-patterns, monorepo-management, platform-engineering, reliability-engineering, auth-identity, compliance-governance, codebase-intelligence, verification-discipline, release-engineering, delegation-quality
+- **Productivity**: `handoff` (manual `/handoff` to save session state) — adapted from [mattpocock/skills](https://github.com/mattpocock/skills), context-preservation, ai-optimization, developer-tooling, jce-worker-operating-system, wasm, tailwind
 
 ---
 
@@ -66,13 +79,40 @@ git clone https://github.com/sirkeldigital/naraya-agents.git
 cd naraya-agents
 ```
 
+**Agents:**
+
 | Platform | Copy this | To this |
 |---|---|---|
 | Claude Code | `platforms/claude-code/agents/*.md` | `~/.claude/agents/` |
 | OpenCode | `platforms/opencode/agents/*.md` | `~/.config/opencode/agents/` |
 | Factory Droid | `platforms/droid/droids/*.md` | `~/.factory/droids/` |
 
+**Skills:**
+
+| Platform | Copy this | To this |
+|---|---|---|
+| Claude Code | `skills/*` (entire folder) | `~/.claude/skills/` |
+| OpenCode | `skills/*` (entire folder) | `~/.config/opencode/skills/` |
+| Factory Droid | `skills/*` (entire folder) | `~/.factory/skills/` |
+
 Then restart your CLI.
+
+### Selective install
+
+By default the installer installs **agents + skills**. To install only one:
+
+```powershell
+# Windows - agents only
+$env:NARAYA_COMPONENTS='agents'; irm https://raw.githubusercontent.com/sirkeldigital/naraya-agents/main/install/install.ps1 | iex
+
+# Windows - skills only
+$env:NARAYA_COMPONENTS='skills'; irm https://raw.githubusercontent.com/sirkeldigital/naraya-agents/main/install/install.ps1 | iex
+```
+
+```bash
+# macOS/Linux - agents only
+NARAYA_COMPONENTS=agents curl -fsSL https://raw.githubusercontent.com/sirkeldigital/naraya-agents/main/install/install.sh | bash
+```
 
 ---
 
@@ -91,6 +131,18 @@ You should see `naraya-worker`, `oracle`, `naraya-researcher`, `explorer`, `fron
 Invoke via:
 - Auto-dispatch: just ask normally — Claude routes to the right agent based on intent.
 - Explicit: `"use naraya-worker to refactor this module"`
+
+### Skills
+
+Skills load on-demand when the task matches their description. Most are automatic. One is manual-trigger only:
+
+**`/handoff`** — Save the current session as a transferable Markdown doc (in your OS temp dir) so a fresh agent can pick up the work:
+
+```
+/handoff finish the auth refactor and add tests
+```
+
+The handoff doc includes: what was done, current state, what's next, open decisions, gotchas, verification commands, and suggested skills for resume. Secrets are auto-redacted. Bilingual (matches the session's language).
 
 ### OpenCode
 
@@ -138,13 +190,18 @@ naraya-agents/
 │   ├── explorer.md
 │   ├── frontend.md
 │   └── android.md
-├── platforms/                 # Generated per-platform variants
+├── platforms/                 # Generated per-platform agent variants
 │   ├── claude-code/agents/
 │   ├── opencode/agents/
 │   └── droid/droids/
+├── skills/                    # 65 on-demand skills (platform-agnostic)
+│   ├── handoff/SKILL.md
+│   ├── software-engineering/SKILL.md
+│   ├── react/SKILL.md
+│   └── ... (62 more)
 ├── install/
-│   ├── install.ps1
-│   └── install.sh
+│   ├── install.ps1            # Windows installer
+│   └── install.sh             # macOS/Linux installer
 └── build.ps1                  # Regenerate platform variants from source/
 ```
 
